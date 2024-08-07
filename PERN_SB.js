@@ -4,18 +4,18 @@ const readline = require('readline');
 const shell = require('shelljs');
 
 const createPERN = (projectName, SUPABASE_URL, SUPABASE_ANON, SUPABASE_SECRET) => {
-  
 
-    console.log(`Creating ${projectName}...`);
-    
-    // Step 1: Create the project directory
-    shell.exec(`mkdir ${projectName}`);
 
-    // Step 2: Navigate to the project directory
-    shell.cd(projectName);
-    shell.exec('npm init -y');
-    shell.exec('npm install concurrently --save-dev')
-    shell.ShellString(`
+  console.log(`Creating ${projectName}...`);
+
+  // Step 1: Create the project directory
+  shell.exec(`mkdir ${projectName}`);
+
+  // Step 2: Navigate to the project directory
+  shell.cd(projectName);
+  shell.exec('npm init -y');
+  shell.exec('npm install concurrently --save-dev')
+  shell.ShellString(`
     {
       "name": "app-create-test",
       "version": "1.0.0",
@@ -39,21 +39,21 @@ const createPERN = (projectName, SUPABASE_URL, SUPABASE_ANON, SUPABASE_SECRET) =
     }
     
     `).to(`package.json`)
-    // Step 3: Set up the back end (Node.js + Express)
-  
-    shell.mkdir('server');
-    shell.cd('server');
-    shell.touch('.env')
-    shell.ShellString(`
+  // Step 3: Set up the back end (Node.js + Express)
+
+  shell.mkdir('server');
+  shell.cd('server');
+  shell.touch('.env')
+  shell.ShellString(`
       SUPABASE_URL = ${SUPABASE_URL}
       SUPABASE_ANON = ${SUPABASE_ANON}
       SUPABASE_SECRET = ${SUPABASE_SECRET}
     `).to('.env')
-    shell.touch('.gitignore')
-    shell.echo('".env" >> .gitignore')
-    // Step 4: Initialize npm for the back end
-    shell.exec('npm init -y');
-    shell.ShellString(`
+  shell.touch('.gitignore')
+  shell.echo('".env" >> .gitignore')
+  // Step 4: Initialize npm for the back end
+  shell.exec('npm init -y');
+  shell.ShellString(`
     {
       "name": "@app-create-test/server",
       "version": "1.0.0",
@@ -78,11 +78,11 @@ const createPERN = (projectName, SUPABASE_URL, SUPABASE_ANON, SUPABASE_SECRET) =
     
     `).to('package.json')
 
-    // Step 5: Install necessary dependencies (Express, body-parser)
-    shell.exec('npm install express body-parser pg dotenv @supabase/supabase-js nodemon');
+  // Step 5: Install necessary dependencies (Express, body-parser)
+  shell.exec('npm install express body-parser pg dotenv @supabase/supabase-js nodemon');
 
-    // Step 6: Create a basic Express server file
-    shell.ShellString(`
+  // Step 6: Create a basic Express server file
+  shell.ShellString(`
       const express = require('express');
       const bodyParser = require('body-parser');
       require("dotenv").config();
@@ -117,36 +117,36 @@ const createPERN = (projectName, SUPABASE_URL, SUPABASE_ANON, SUPABASE_SECRET) =
       });
     `).to('api.js');
 
-    // Step 7: Navigate back to the project root
-    shell.cd('..');
-    shell.exec('npm link server')  
-    // Step 8: Set up the front end (React)
-    shell.exec('npm create vite@latest client -- --template react');
-    shell.exec('npm link client')    
-    // Step 9: Navigate to the client directory
-    shell.cd('client');
-    shell.touch('.env.local')
-    shell.ShellString(`
+  // Step 7: Navigate back to the project root
+  shell.cd('..');
+  shell.exec('npm link server')
+  // Step 8: Set up the front end (React)
+  shell.exec('npm create vite@latest client -- --template react');
+  shell.exec('npm link client')
+  // Step 9: Navigate to the client directory
+  shell.cd('client');
+  shell.touch('.env.local')
+  shell.ShellString(`
       VITE_URL = ${SUPABASE_URL}
       VITE_ANON = ${SUPABASE_ANON}
       VITE_SECRET = ${SUPABASE_SECRET}
     `).to('.env')
-    shell.touch('.gitignore')
-    shell.echo('".env.local" >> .gitignore')
-    shell.exec('npm install')
-    shell.exec('npm install react-router-dom localforage match-sorter sort-by')
-    shell.exec('npm install react-icons --save')
-    // Step 10: Add configure file structure
-    shell.cd('public')
-    shell.rm('./vite.svg')
-    shell.touch('_redirects')
-    shell.touch('sitemap.xml')
-    shell.cd('../src')
-    shell.rm('./assets/react.svg')
-    shell.mkdir('components')
-    shell.cd('components')
-    shell.touch('Navbar.css')
-    shell.ShellString(`* {
+  shell.touch('.gitignore')
+  shell.echo('".env.local" >> .gitignore')
+  shell.exec('npm install')
+  shell.exec('npm install react-router-dom localforage match-sorter sort-by')
+  shell.exec('npm install react-icons --save')
+  // Step 10: Add configure file structure
+  shell.cd('public')
+  shell.rm('./vite.svg')
+  shell.touch('_redirects')
+  shell.touch('sitemap.xml')
+  shell.cd('../src')
+  shell.rm('./assets/react.svg')
+  shell.mkdir('components')
+  shell.cd('components')
+  shell.touch('Navbar.css')
+  shell.ShellString(`* {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -298,8 +298,8 @@ const createPERN = (projectName, SUPABASE_URL, SUPABASE_ANON, SUPABASE_SECRET) =
               cursor: pointer;
             }
           }`).to('Navbar.css')
-    shell.touch('Navbar.jsx')
-    shell.ShellString(`
+  shell.touch('Navbar.jsx')
+  shell.ShellString(`
     import React, {useState} from 'react'
     import { Link } from 'react-router-dom'
     import { NavLink } from 'react-router-dom'
@@ -346,10 +346,10 @@ const createPERN = (projectName, SUPABASE_URL, SUPABASE_ANON, SUPABASE_SECRET) =
     
     export default Navbar
     `).to('Navbar.jsx')
-    shell.cd('..')
-    shell.mkdir('routes')
-    shell.cd('routes')
-    shell.ShellString(`
+  shell.cd('..')
+  shell.mkdir('routes')
+  shell.cd('routes')
+  shell.ShellString(`
     import React from 'react'
     import '../App.css';
     
@@ -364,7 +364,7 @@ const createPERN = (projectName, SUPABASE_URL, SUPABASE_ANON, SUPABASE_SECRET) =
     
     export default Home
     ` ).to('Home.jsx')
-    shell.ShellString(`
+  shell.ShellString(`
 
       import { useRouteError } from "react-router-dom";
 
@@ -383,8 +383,8 @@ const createPERN = (projectName, SUPABASE_URL, SUPABASE_ANON, SUPABASE_SECRET) =
           </div>
         );
       }` ).to('ErrorPage.jsx')
-    shell.cd('..')
-    shell.ShellString(`
+  shell.cd('..')
+  shell.ShellString(`
       * {
         box-sizing: border-box;
         margin: 0;
@@ -439,7 +439,7 @@ const createPERN = (projectName, SUPABASE_URL, SUPABASE_ANON, SUPABASE_SECRET) =
         }
       }
     `).to('App.css')
-    shell.ShellString(`
+  shell.ShellString(`
       import * as React from "react";
       import { createRoot } from "react-dom/client";
       import {
@@ -482,9 +482,10 @@ const createPERN = (projectName, SUPABASE_URL, SUPABASE_ANON, SUPABASE_SECRET) =
         <RouterProvider router={router} />
       );
     `).to('App.jsx')
-    shell.rm('index.css')
-    shell.rm('main.jsx')
-    shell.ShellString(`
+  shell.rm('index.css')
+  shell.rm('main.jsx')
+  shell.cd('..')
+  shell.ShellString(`
         <!doctype html>
         <!--html lang="en" data-bs-theme="dark"-->
         <html lang="en">
@@ -499,9 +500,7 @@ const createPERN = (projectName, SUPABASE_URL, SUPABASE_ANON, SUPABASE_SECRET) =
             <script type="module" src="/src/App.jsx"></script>
           </body>
         </html>      
-    `).to('index.html')  
-    shell.cd('..')    
-       
+    `).to('index.html')
 
 
 
@@ -510,10 +509,12 @@ const createPERN = (projectName, SUPABASE_URL, SUPABASE_ANON, SUPABASE_SECRET) =
 
 
 
-    console.log(`Project ${projectName} created successfully!`);
-  
 
-program.parse(process.argv);
+
+  console.log(`Project ${projectName} created successfully!`);
+
+
+  program.parse(process.argv);
 }
 
 module.exports = { createPERN }

@@ -16,12 +16,12 @@ program
     if (!projectName) {
       projectName = await askQuestion('Please enter a project name: ');
     }
-
+    else{
     // Display project type options with colors
     console.log('\x1b[36m%s\x1b[0m', 'Choose a project type:');
     console.log('\x1b[32m%s\x1b[0m', '1. PERN with Supabase');
     console.log('\x1b[35m%s\x1b[0m', '2. React with Flask');
-
+    }
     // Read user input for project type
     const projectType = await askQuestion('Enter the number corresponding to your choice: ');
 
